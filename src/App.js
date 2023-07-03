@@ -1,5 +1,6 @@
 import './App.css';
 import axios from 'axios';
+import moment from "moment";
 import { useState, useRef } from 'react';
 
 function App() {
@@ -7,6 +8,8 @@ function App() {
   const [articles, setArticles] = useState([]);
   const inputRef = useRef("")
 
+  var startDate = (new Date(new Date().getTime() - (14 * 24 * 60 * 60 * 1000)));
+  let formattedDate = moment(startDate).format("YYYY-MM-DD");
   const addPara = (e) => {
     setParam(e.target.value);
   };
@@ -14,7 +17,7 @@ function App() {
   const displayNews = async (e) => {
     e.preventDefault();
     try {
-      const url = `https://newsapi.org/v2/everything?q=${param}&from=2023-05-30&sortBy=publishedAt&apiKey=5f066ad419b84c308574b8b5f709f040`;
+      const url = `https://newsapi.org/v2/everything?q=${param}&from=${formattedDate}&sortBy=publishedAt&apiKey=5f066ad419b84c308574b8b5f709f040`;
       console.log(url, param);
       const response = await axios.get(url);
       setArticles(response.data.articles);
